@@ -11,9 +11,9 @@ const Main = () => {
 
   const [banner, setBanner] = useState([]);
 
-  const { allState : {user, showTrailer, playTrailer, closeTrailer}} = UseStateContext()
+  const [showTrailer, setShowTrailer] = useState({open: false, id: ""})
 
-
+  const { allState : {user}} = UseStateContext()
 
   const dispatch = useDispatch()
   const { favorite } = useSelector((state) => state.account.value)
@@ -21,10 +21,25 @@ const Main = () => {
   const overviewLength = (str, n) => {
     return str?.length > n ? str.slice(0, n) + "..." : str
   }
+  
+  const getVideo = async() => {
+    const type = banner?.media_type === "movie" ? "movie" : "tv"
+    const response = await fetch(`https://api.themoviedb.org/3/${type}/${banner.id}/videos?api_key=${apiKey}&language=en-US`);
+    const {results} = await response.json();
+    return results;
+  }
 
 
-  const play = async() => {
-    await playTrailer(banner)
+  const playTrailer = async() => {
+    const trailers = await getVideo();
+    const video = trailers.find((item) => item.name === "Official Trailer")
+    setShowTrailer({open: true, id: trailers[0].key})
+ }
+
+ 
+
+const closeTrailer = () => {
+  setShowTrailer({open: false, id: ""})
 }
 
   const handelFavorite = () => {
@@ -77,7 +92,7 @@ const Main = () => {
       <p className='text-gray-300 text-sm mb-1 md:mb-2 lg:mb-2'>Release Date: {banner?.release_date || banner?.first_air_date}</p>
       <p className='text-white w-full md:max-w-[90%] lg:max-w-[70%] text-sm md:text-lg md:mb-3 lg:mb-10'>{overviewLength(banner?.overview, 200)}</p>
       <div>
-       <button onClick={play} className='text-white border border-white text-sm px-3 py-1 lg:px-3 lg:py-2 mr-3'>Play</button>
+       <button onClick={playTrailer} className='text-white border border-white text-sm px-3 py-1 lg:px-3 lg:py-2 mr-3'>Play</button>
        <button onClick={handelFavorite} className='text-white border-white text-sm px-3 py-1 lg:px-3 lg:py-2 border'>Watch Later</button>
        </div>
       </div>

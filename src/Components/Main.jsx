@@ -86,11 +86,11 @@ const closeTrailer = () => {
       <button className='text-red-700 font-bold bg-black px-2' onClick={closeTrailer}>Close</button>
       </div>}
       
-      <div className='absolute top-[15%] sm:top-[15%] left-[2%] md:left-[3%] lg:left-[2%] md:top-[35%] lg:top-[25%]'>
+      <div className='absolute top-[40%] left-[2%] md:left-[3%] lg:left-[2%] md:top-[35%] lg:top-[25%]'>
       
       <p className='text-white text-2xl lg:text-3xl mb-2 md:mb-2 lg:mb-2'>{banner?.title || banner?.original_title || banner?.name}</p>
       <p className='text-gray-300 text-sm mb-1 md:mb-2 lg:mb-2'>Release Date: {banner?.release_date || banner?.first_air_date}</p>
-      <p className='text-white w-full md:max-w-[90%] lg:max-w-[70%] text-sm md:text-lg md:mb-3 lg:mb-10'>{overviewLength(banner?.overview, 200)}</p>
+      <p className='text-white hidden md:block w-full md:max-w-[90%] lg:max-w-[70%] text-sm md:text-lg md:mb-3 lg:mb-10'>{overviewLength(banner?.overview, 200)}</p>
       <div>
        <button onClick={playTrailer} className='text-white border border-white text-sm px-3 py-1 lg:px-3 lg:py-2 mr-3'>Play</button>
        <button onClick={handelFavorite} className='text-white border-white text-sm px-3 py-1 lg:px-3 lg:py-2 border'>Watch Later</button>
